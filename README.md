@@ -1,1 +1,2 @@
-# angular-dojo
+# Angular dojo
+**Not** JS framework dojo

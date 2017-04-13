@@ -22,3 +22,6 @@ TODO
 
 ## Unit tests
 TODO
+
+## Interfacing with an API
+TODO

@@ -6,10 +6,7 @@ It's time to do some Angular
 * Install [angular-cli](https://github.com/angular/angular-cli/)
 
 ## Project set-up
-Let's create our first Angular project. Follow these steps:
-
-1) `ng new angular-dojo`
-2) There is no step 2
+Follow the steps on the [angular-cli](https://github.com/angular/angular-cli/) page to create a blank project, and run it locally.
 
 ## My first component
 TODO

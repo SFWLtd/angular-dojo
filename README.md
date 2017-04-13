@@ -24,4 +24,10 @@ TODO
 TODO
 
 ## Interfacing with an API
-TODO
+This repository contains a pre-built dotnet core webapi project. Open the solution within `./api/src/` in Visual Studio, and run the webapi project. Keep it running in the background.
+
+### Swagger
+With the webapi project running, tou should be able to browse to the Swagger endpoints, thanks to [NSwag](https://github.com/NSwag/NSwag):
+
+* Swagger UI: http://localhost:4201/swagger
+* Swagger JSON: http://localhost:4201/swagger/v1/swagger.json

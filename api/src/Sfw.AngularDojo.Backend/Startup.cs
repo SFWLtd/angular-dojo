@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NSwag.AspNetCore;
 using System.Reflection;
+using Microsoft.AspNetCore.Cors;
 
 namespace Sfw.AngularDojo.Backend
 {
@@ -38,6 +39,8 @@ namespace Sfw.AngularDojo.Backend
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+
+            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
             app.UseSwaggerUi(typeof(Startup).GetTypeInfo().Assembly, new SwaggerUiOwinSettings());
             app.UseMvc();

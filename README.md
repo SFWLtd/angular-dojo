@@ -1,5 +1,5 @@
 # Angular dojo
-It's time to do some Angular! Note that this dojo only scratches the surface of what Angular is capable of. If you're interested in Angular, the best place to learn more is the official docs: [https://angular.io/docs/ts/latest/](https://angular.io/docs/ts/latest/)
+It's time to do some Angular! This dojo only scratches the surface of what Angular is capable of. If you're interested in learning more, the best place to start is the official docs: [https://angular.io/docs/ts/latest/](https://angular.io/docs/ts/latest/)
 
 ## Pre-requisites
 * Install [node](https://nodejs.org/en/download/) & [npm](https://www.npmjs.com/)
@@ -170,8 +170,37 @@ Notice how the full Date object is displayed. Let's change that with a pipe:
 
 Ooh shiny. You can of course create your own pipes, and you can parameterise them too.
 
-## Directives
-TODO
+## Attribute directives
+Let's check out Angular's attribute directives. Create a new directive using angular-cli:
+
+* `ng g directive highlight`
+
+Now edit  `highlight.directive.ts`:
+
+* Inject `private el: ElementRef` into the constructor
+* Make the directive implement `OnInit`, and add the `ngOnInit` method. Edit it to something like:
+```
+ngOnInit() {
+  this.el.nativeElement.style.backgroundColor = 'yellow';
+}
+```
+
+Now let's actually use our directive, by adding it as an attribute to any HTML element:
+```
+<div appHighlight>
+```
+
+We can also add `@Input` properties onto directives, for further customisability. Edit `highlight.directive.ts`:
+
+* Add an input property: `@Input() highlightColor: string;`
+* Use this new property, instead of hard-coding `"yellow"`, in `ngOnInit()`
+
+Now we can use our directive along with its input property:
+```
+<div appHighlight highlightColor="yellow">
+```
+
+**Bonus points:** make the syntax more compact, so you can just write `<div appHighlight="yellow">`. You can do this by naming the `@Input` property appropriately, and using an `@Input` **alias** inside the directive, for readability.
 
 ## Unit tests
 TODO

@@ -117,18 +117,18 @@ To simulate real-life, let's make our service **asynchronous**, and introduce an
 * Change the signature of our `getValues()` method, so that it returns a `Observable<string[]>`
 * Change the return value to `Observable.of(["1", "2"])`
 
-When calling the service, we'll now have a compile error. Fix this by editing `about.component.ts`:
+We'll now have a compile error. Fix this by editing `about.component.ts`:
 
-* In `ngOnInit`, change the erroring line to: `this.dataAccessService.getValues().subscribe(result => this.values = result);`
+* In `ngOnInit`, change the line that calls the service to: `this.dataAccessService.getValues().subscribe(result => this.values = result);`
 
-We're not quite there, as our service is still returning data instantaneously. Let's slow it down, by editing `data-access.service.ts` again:
+We're not quite there, as our service is still returning data instantaneously. Let's slow it down, by editing the return value of `getValues()` in `data-access.service.ts` again:
 ```
-    return new Observable(subscriber => {
-      setTimeout(() => subscriber.next(["1", "2"]), 1000);
-    });
+return new Observable(subscriber => {
+  setTimeout(() => subscriber.next(["1", "2"]), 1000);
+});
 ```
 
-Now test it out, and *observe* (no pun intended) how the about component takes a second to display the values on the screen, every time it is initiated. We can take this one step further, and display something on screen whilst we're waiting. Let's do that now:
+Now test it out, and *observe* how the about component takes a second to display the values on the screen, every time it is initiated. We can take this one step further, and display something on screen whilst we're waiting. Let's do that now:
 
 * In `about.component.ts`, add a new local variable, `isLoading: boolean`
 * Also in `about.component.ts`, inside `ngOnInit`, start by setting `this.isLoading = true`. When the values are returned from the service, set `this.isLoading = false`
@@ -157,6 +157,9 @@ Let's use NSwag to generate a TypeScript client for us:
 Check that the data shows up on the screen.
 
 *For some reason the latest version of NSwag wasn't working properly at the time of writing, but 8.0.0 was. Feel free to try the latest version if you want. Note that the template name is simply `angular`, not `angular2` when using the latest version.
+
+### Posting and waiting
+TODO - post to API. Disable `<form>` whilst waiting for response
 
 ## Pipes
 Let's check out Angular's pipes:

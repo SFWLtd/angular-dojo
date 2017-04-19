@@ -1,10 +1,11 @@
 # Angular dojo
-It's time to do some Angular! This dojo only scratches the surface of what Angular is capable of. If you're interested in learning more, the best place to start is the official docs: [https://angular.io/docs/ts/latest/](https://angular.io/docs/ts/latest/)
+It's time to do some Angular! This dojo contains a bunch of things that Matt likes about Angular, and only scratches the surface of what it is capable of. If you're interested in learning more, the best place to start is the official docs: [https://angular.io/docs/ts/latest/](https://angular.io/docs/ts/latest/)
 
 ## Pre-requisites
-* Install [node](https://nodejs.org/en/download/) & [npm](https://www.npmjs.com/)
+* Install [node](https://nodejs.org/en/download/) & [npm](https://www.npmjs.com/). You can use [yarn](https://yarnpkg.com/lang/en/) if you prefer!
 * Install [angular-cli](https://github.com/angular/angular-cli/): `npm install -g @angular/cli`
 * Install [gulp](https://github.com/gulpjs/gulp): `npm install -g gulp`
+* Install [vscode](https://code.visualstudio.com/), and this [auto import extension](https://marketplace.visualstudio.com/items?itemName=steoates.autoimport)
 
 ## Project set-up
 Follow these steps (taken directly from the [angular-cli](https://github.com/angular/angular-cli/) page) to create a blank project, and run it locally. Keep it running for the rest of this dojo:
@@ -47,6 +48,7 @@ See if it's working, by editing `app.component.html`:
 Let's play around with some Angular binding, by editing `app.component.html`:
 
 * Add `<input [(ngModel)]="title">` to the component
+* Wrap the input in a `<div>` with class `ui input`
 
 Note that this is a **two way binding**. Notice how the value displayed in the `<h1>` (which is using a **one way binding**) automatically changes in real time.
 
@@ -101,7 +103,7 @@ getValues(): string[] {
   return ["1", "2"];
 }
 ```
-* **Inject** the new service into `about.component.ts`. **Don't** instantiate it!
+* **Inject** the new service into `about.component.ts`. **Don't** instantiate it! (Hint: `private dataAccessService: DataAccessService`)
 * **Provide** the new service in `about.component.ts`. **Hint:** `providers: [DataAccessService]`
 * Call the new `getValues()` method when the `about` component initiates (the lifecycle hook should already be there, thanks to angular-cli). Assign the return value to a local variable (say `values`)
 * Edit `about.component.html`, to actually display the values. Here we can use some Angular syntax, like:
@@ -147,7 +149,7 @@ With the webapi project running, you should be able to browse to the Swagger end
 Let's use NSwag to generate a TypeScript client for us:
 
 * Install NSwag 8.0.0*: `npm install nswag@8.0.0 -g`
-* Generate the TS client: `nswag swagger2tsclient /input:http://localhost:4201/swagger/v1/swagger.json /output:./src/api/apiclient.ts /template:angular2`
+* Generate the TS client: `nswag swagger2tsclient /input:http://localhost:4201/swagger/v1/swagger.json /output:./src/api/apiclient.ts /template:angular2` (you might want to add this command as a script inside `package.json`)
 * Edit `about.component.ts`:
   * Add import: `import * as apiClient from '../../api/apiclient';`
   * Add provider: `providers: [apiClient.ValuesClient]`
@@ -158,8 +160,41 @@ Check that the data shows up on the screen.
 
 *For some reason the latest version of NSwag wasn't working properly at the time of writing, but 8.0.0 was. Feel free to try the latest version if you want. Note that the template name is simply `angular`, not `angular2` when using the latest version.
 
-### Posting and waiting
-TODO - post to API. Disable `<form>` whilst waiting for response
+### Forms, posting and waiting
+Let's create a quick form:
+
+* Create a new component called `form`
+* Add a new route for this new component, in `app.routing.ts`
+* Add a new `routerLink` into our nav component, so we can navigate to it
+* Edit the new `form.component.ts`:
+  * Add a local variable `myInput: string`
+  * Create a blank method `submit()`. We'll use this later
+  * Add `import * as apiClient from '../../api/apiclient';`
+  * Inject `apiClient.ValuesClient` into the constructor, as before
+* Move the line that provides `apiClient.ValuesClient`. This is currently in `about.component.ts`. We can move this up a layer, so that it is provided in `app.module.ts`
+* Edit the new `form.component.html`:
+  * Replace the default contents with a `<form>` with class `ui form`. Also add `(ngSubmit)="submit()"` to this `<form>`. This hooks the submit method into the `submit()` method we defined earlier on the component
+  * In the form, add an `<input>` of type `text`, with `[(ngModel)]` set to the local variable `myInput` created earlier. You'll also need to set the `name` to something, otherwise Angular will moan
+  * Wrap this `<input>` in a `<div>` with class `field`
+  * Add a `<button>` of type `submit`, with class `ui button green`
+  * Wrap the contents of the `<form>` in a `<div>` with class `ui container segment`
+
+Now, because the form input is bound to our local variable `myInput`, when we submit the form we can access the user's input through this variable. This lets us easily post to the api from inside the component. Edit `form.component.ts`:
+
+* Inside `submit()`, add a line like `this.valuesClient.post(this.myInput).subscribe();`
+
+If you put a breakpoint in Visual Studio, inside the post method of `ValuesController`, you should see that your entered value has arrived on the server. Cool!
+
+However, it could be cooler by being a bit more responsive. We can change that pretty easily:
+
+* Add a new local variable to `form.component.ts`: `isSubmitting: boolean;`
+* In `submit()`, start by setting `this.isSubmitting = true`. When the response comes back from the api, set this back to `this.isSubmitting = false`
+* In `form.component.html`, add `[disabled]="isSubmitting"` to both the `<input>` and `<button>`
+* Add `[class.loading]="isSubmitting"` to the `<button>`
+
+Try submitting the form again. Cooler!
+
+**Bonus points:** You can move the `[disabled]="isSubmitting"` attribute onto a `<fieldset>` wrapping all the form elements, rather than replicating it on each element.
 
 ## Pipes
 Let's check out Angular's pipes:
@@ -175,8 +210,9 @@ Ooh shiny. You can of course create your own pipes, and you can parameterise the
 
 ## Attribute directives
 Let's check out Angular's attribute directives. Create a new directive using angular-cli:
-
-* `ng g directive highlight`
+```
+`ng g directive highlight`
+```
 
 Now edit  `highlight.directive.ts`:
 
@@ -193,7 +229,7 @@ Now let's actually use our directive, by adding it as an attribute to any HTML e
 <div appHighlight>
 ```
 
-We can also add `@Input` properties onto directives, for further customisability. Edit `highlight.directive.ts`:
+Hooray! We can also add `@Input` properties onto directives, for further customisability. Edit `highlight.directive.ts`:
 
 * Add an input property: `@Input() highlightColor: string;`
 * Use this new property, instead of hard-coding `"yellow"`, in `ngOnInit()`
@@ -203,10 +239,35 @@ Now we can use our directive along with its input property:
 <div appHighlight highlightColor="yellow">
 ```
 
-**Bonus points:** make the syntax more compact, so you can just write `<div appHighlight="yellow">`. You can do this by naming the `@Input` property appropriately, and using an `@Input` **alias** inside the directive, for readability.
+**Bonus points:** make the syntax more compact, so that we can just write `<div appHighlight="yellow">`. You can do this by matching the name of the `@Input` property to the directive's name. To avoid confusion inside the directive, you can use an `@Input` **alias**.
 
 ## Unit tests
-TODO
+You may have noticed that angular-cli has been generating `*.spec.ts` files whenever we create anything. And in fact, they come with a few built-in tests, ready to go. To run them, use:
+```
+ng test
+```
+
+Woops - they all fail! We need to do some quick fixes to accommodate all the code we've already written:
+
+* In `about.component.spec.ts`, we need to import Angular's HTTP module. Add `imports: [HttpModule]` to the `TestBed.configureTestingModule` method
+* Also in `about.component.spect.ts`, we need to provide the ValuesClient. Add `providers: [apiClient.ValuesClient]` (and `import * as apiClient from '../../api/apiclient';`)
+* In `app.component.spec.ts`, we need to tell Angular about our custom components. Add `schemas: [CUSTOM_ELEMENTS_SCHEMA]` to the `TestBed.configureTestingModule` method (and import `CUSTOM_ELEMENTS_SCHEMA` from `@angular/core`)
+* Also in `app.component.spec.ts`, we need to import Angular's forms module. Add `imports: [FormsModule]` to the `TestBed.configureTestingModule` method
+* In `navigation.component.spec.ts`, we need to import Angular's router testing module. Add `imports: [RouterTestingModule]` to the `TestBed.configureTestingModule` method (and import `RouterTestingModule` from `@angular/router/testing`)
+* In `form.component.spec.ts`, we need to import both Angular's HTTP module, Angular's forms module, and we need to provide the ValuesClient. Use the same approach as above
+* Finally, just delete `hightlight.directive.spec.ts`, as we're not going to test it in this dojo
+
+And now, after running `ng test` again, the tests should all pass.. hooray!
+
+### Mocking our service
+Let's mock our `apiClient.ValuesClient`, so we can test that the about component is populating itself correctly. Edit `about.component.spec.ts`:
+
+* `import * as apiClient from '../../api/apiclient';`
+* Create a class, `MockValuesClient` that extends `apiClient.ValuesClient`. Override `getAll()`, by defining a mock method that returns `Observable.of(["value3"]);`
+* Configure the test bed to use an instance of `MockValuesClient` whenever `apiClient.ValuesClient` is needed. Here's where providers come in handy, as we can change out the providers line to: `providers: [{ provide: apiClient.ValuesClient, useClass: MockValuesClient }]`
+* Create a new test method to check that the values from the api are populating the component's local variable. Something like `expect(component.values).toContain("value3");`
+
+The test should pass. **Bonus points:** take it one step further, and test that the value from the mock client is displayed on the screen.
 
 ## Useful tools
 

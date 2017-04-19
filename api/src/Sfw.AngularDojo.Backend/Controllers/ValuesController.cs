@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading;
 
 namespace Sfw.AngularDojo.Backend.Controllers
 {
@@ -25,8 +26,10 @@ namespace Sfw.AngularDojo.Backend.Controllers
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        public OkResult Post([FromBody]string value)
         {
+            Thread.Sleep(1000);
+            return Ok();
         }
 
         // PUT api/values/5

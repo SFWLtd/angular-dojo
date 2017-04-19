@@ -108,9 +108,11 @@ getValues(): string[] {
 * Call the new `getValues()` method when the `about` component initiates (the lifecycle hook should already be there, thanks to angular-cli). Assign the return value to a local variable (say `values`)
 * Edit `about.component.html`, to actually display the values. Here we can use some Angular syntax, like:
 ```
-<div *ngFor="let value of values">
-  {{value}}
-</div>
+<ul>
+  <li *ngFor="let value of values">
+    {{value}}
+  </li>
+</ul>
 ```
 
 ### Asynchronicity

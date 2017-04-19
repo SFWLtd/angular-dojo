@@ -14,6 +14,7 @@ namespace Sfw.AngularDojo.Backend.Controllers
         [HttpGet]
         public IEnumerable<string> Get()
         {
+            Thread.Sleep(1000);
             return new string[] { "value1", "value2" };
         }
 

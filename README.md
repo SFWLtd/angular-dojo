@@ -5,6 +5,7 @@ It's time to do some Angular! This dojo contains a bunch of things that Matt lik
 * Install [node](https://nodejs.org/en/download/) & [npm](https://www.npmjs.com/). You can use [yarn](https://yarnpkg.com/lang/en/) if you prefer!
 * Install [angular-cli](https://github.com/angular/angular-cli/): `npm install -g @angular/cli`
 * Install [gulp](https://github.com/gulpjs/gulp): `npm install -g gulp`
+* Install [vs2017](https://www.visualstudio.com/thank-you-downloading-visual-studio/?sku=Community&rel=15#)
 * Install [vscode](https://code.visualstudio.com/), and this [auto import extension](https://marketplace.visualstudio.com/items?itemName=steoates.autoimport)
 
 ## Project set-up
@@ -136,7 +137,15 @@ Now test it out, and *observe* how the about component takes a second to display
 
 * In `about.component.ts`, add a new local variable, `isLoading: boolean`
 * Also in `about.component.ts`, inside `ngOnInit`, start by setting `this.isLoading = true`. When the values are returned from the service, set `this.isLoading = false`
-* In `about.component.html`, display something when loading. (Hint: `*ngIf="isLoading"`)
+* In `about.component.html`, display something when loading:
+```
+<div *ngIf="isLoading" class="ui active centered inline text loader">
+  Loading...
+</div>
+```
+
+### Route resolvers
+In real life you might not want to instantly load the page and show some holding content whilst waiting for data. You may want to wait until all the data is present before activating the route. This can be achieved with **route resolvers**. They're not covered in this dojo, but are fairly straightforward. You can read more at [thoughtram](https://blog.thoughtram.io/angular/2016/10/10/resolving-route-data-in-angular-2.html).
 
 ## Interfacing with an API
 This repository contains a pre-built dotnet core webapi project. Open the solution within `./api/src/` in Visual Studio, and run the webapi project. Keep it running in the background.

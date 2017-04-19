@@ -92,7 +92,7 @@ export const routing = RouterModule.forRoot(routes);
 ```
 * Edit `app.module.ts`, and add `RouterModule` and `routing` to the `imports` list
 * Edit `navigation.component.html`, and add attributes `[routerLink]="['']"` and `[routerLink]="['about']"` to their respective `<a>`s
-* Bask in your own glory. For bonus points - look into Angular's **Child Routes**
+* Bask in your own glory. For bonus points - look into Angular's **child routes**
 
 ## Services
 Let's create a service, so that we can put some data on the screen:
@@ -104,7 +104,7 @@ getValues(): string[] {
   return ["1", "2"];
 }
 ```
-* **Inject** the new service into `about.component.ts`. **Don't** instantiate it! (Hint: `private dataAccessService: DataAccessService`)
+* **Inject** the new service into `about.component.ts`. **Don't** instantiate it! (**Hint:** `constructor(private dataAccessService: DataAccessService)`)
 * **Provide** the new service in `about.component.ts`. **Hint:** `providers: [DataAccessService]`
 * Call the new `getValues()` method when the `about` component initiates (the lifecycle hook should already be there, thanks to angular-cli). Assign the return value to a local variable (say `values`)
 * Edit `about.component.html`, to actually display the values. Here we can use some Angular syntax, like:
@@ -182,7 +182,7 @@ Let's create a quick form:
   * Create a blank method `submit()`. We'll use this later
   * Add `import * as apiClient from '../../api/apiclient';`
   * Inject `apiClient.ValuesClient` into the constructor, as before
-* Move the line that provides `apiClient.ValuesClient`. This is currently in `about.component.ts`. We can move this up a layer, so that it is provided in `app.module.ts`
+* Move the line that provides `apiClient.ValuesClient`. This is currently in `about.component.ts`. We can move this up a layer, so that it is provided in `app.module.ts`, to save us having to duplicate any code
 * Edit the new `form.component.html`:
   * Replace the default contents with a `<form>` with class `ui form`. Also add `(ngSubmit)="submit()"` to this `<form>`. This hooks the submit method into the `submit()` method we defined earlier on the component
   * In the form, add an `<input>` of type `text`, with `[(ngModel)]` set to the local variable `myInput` created earlier. You'll also need to set the `name` to something, otherwise Angular will moan
@@ -222,7 +222,7 @@ Ooh shiny. You can of course create your own pipes, and you can parameterise the
 ## Attribute directives
 Let's check out Angular's attribute directives. Create a new directive using angular-cli:
 ```
-`ng g directive highlight`
+ng g directive highlight
 ```
 
 Now edit  `highlight.directive.ts`:
@@ -250,7 +250,7 @@ Now we can use our directive along with its input property:
 <div appHighlight highlightColor="yellow">
 ```
 
-**Bonus points:** make the syntax more compact, so that we can just write `<div appHighlight="yellow">`. You can do this by matching the name of the `@Input` property to the directive's name. To avoid confusion inside the directive, you can use an `@Input` **alias**.
+**Bonus points:** make the syntax more compact, so that we can just write `<div appHighlight="yellow">`. You can do this by matching the name of the `@Input` property to the directive's name. To avoid confusion inside the directive, you can use an **input alias**.
 
 ## Unit tests
 You may have noticed that angular-cli has been generating `*.spec.ts` files whenever we create anything. And in fact, they come with a few built-in tests, ready to go. To run them, use:
@@ -258,13 +258,13 @@ You may have noticed that angular-cli has been generating `*.spec.ts` files when
 ng test
 ```
 
-Woops - they all fail! We need to do some quick fixes to accommodate all the code we've already written:
+Woops - they fail! We need to do some quick fixes to accommodate all the code we've already written:
 
 * In `about.component.spec.ts`, we need to import Angular's HTTP module. Add `imports: [HttpModule]` to the `TestBed.configureTestingModule` method
 * Also in `about.component.spect.ts`, we need to provide the ValuesClient. Add `providers: [apiClient.ValuesClient]` (and `import * as apiClient from '../../api/apiclient';`)
-* In `app.component.spec.ts`, we need to tell Angular about our custom components. Add `schemas: [CUSTOM_ELEMENTS_SCHEMA]` to the `TestBed.configureTestingModule` method (and import `CUSTOM_ELEMENTS_SCHEMA` from `@angular/core`)
-* Also in `app.component.spec.ts`, we need to import Angular's forms module. Add `imports: [FormsModule]` to the `TestBed.configureTestingModule` method
-* In `navigation.component.spec.ts`, we need to import Angular's router testing module. Add `imports: [RouterTestingModule]` to the `TestBed.configureTestingModule` method (and import `RouterTestingModule` from `@angular/router/testing`)
+* In `app.component.spec.ts`, we need to tell Angular about our custom components. Add `schemas: [CUSTOM_ELEMENTS_SCHEMA]` (and import `CUSTOM_ELEMENTS_SCHEMA` from `@angular/core`)
+* Also in `app.component.spec.ts`, we need to import Angular's forms module. Add `imports: [FormsModule]`
+* In `navigation.component.spec.ts`, we need to import Angular's router testing module. Add `imports: [RouterTestingModule]` (and import `RouterTestingModule` from `@angular/router/testing`)
 * In `form.component.spec.ts`, we need to import both Angular's HTTP module, Angular's forms module, and we need to provide the ValuesClient. Use the same approach as above
 * Finally, just delete `hightlight.directive.spec.ts`, as we're not going to test it in this dojo
 

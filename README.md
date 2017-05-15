@@ -174,7 +174,7 @@ Check that the data shows up on the screen.
 
 *For some reason the latest version of NSwag wasn't working properly at the time of writing, but 8.0.0 was. Feel free to try the latest version if you want. Note that the template name is simply `angular`, not `angular2` when using the latest version.
 
-### Forms, posting and waiting
+## Forms, posting and waiting
 Let's create a quick form:
 
 * Create a new component called `form`

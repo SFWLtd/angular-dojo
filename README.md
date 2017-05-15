@@ -42,7 +42,7 @@ Now we need to reference the compiled semantic CSS and JS, along with jquery. Cr
 }]
 ```
 
-See if it's working, by editing `app.component.html`:
+You'll need to kill and re-run `ng serve`, so that it picks up the updated Angular config. Now let's see if it's working, by editing `app.component.html`:
 
 * Wrap the contents of the component in a `div`, with class `ui container segment`
 * Edit the `h1`, so it has class `ui header`

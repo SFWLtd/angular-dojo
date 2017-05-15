@@ -276,7 +276,6 @@ And now, after running `ng test` again, the tests should all pass.. hooray!
 ### Mocking our service
 Let's mock our `apiClient.ValuesClient`, so we can test that the about component is populating itself correctly. Edit `about.component.spec.ts`:
 
-* `import * as apiClient from '../../api/apiclient';`
 * Create a class, `MockValuesClient` that extends `apiClient.ValuesClient`. Override `getAll()`, by defining a mock method that returns `Observable.of(["value3"]);`
 * Configure the test bed to use an instance of `MockValuesClient` whenever `apiClient.ValuesClient` is needed. Here's where providers come in handy, as we can change out the providers line to: `providers: [{ provide: apiClient.ValuesClient, useClass: MockValuesClient }]`
 * Create a new test method to check that the values from the api are populating the component's local variable. Something like `expect(component.values).toContain("value3");`

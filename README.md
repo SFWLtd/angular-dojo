@@ -25,7 +25,7 @@ For this dojo, we'll use [Semantic UI](https://semantic-ui.com/) as our CSS fram
 * `cd semantic`
 * `gulp build`
 
-Then, reference the compiled semantic CSS and JS, along with jquery, by editing `angular-cli.json`:
+Now we need to reference the compiled semantic CSS and JS, along with jquery. Crack open vscode, and edit `angular-cli.json`:
 
 ```
 "apps": [{

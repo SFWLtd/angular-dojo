@@ -234,13 +234,13 @@ Now edit  `highlight.directive.ts`:
 * Make the directive implement `OnInit`, and add the `ngOnInit` method. Edit it to something like:
 ```
 ngOnInit() {
-  this.el.nativeElement.style.backgroundColor = 'yellow';
+  this.el.nativeElement.classList.add("yellow");
 }
 ```
 
-Now let's actually use our directive, by adding it as an attribute to any HTML element:
+Now let's actually use our directive, by adding it as an attribute to a div:
 ```
-<div appHighlight>
+<div class="ui segment" appHighlight>
 ```
 
 Hooray! We can also add `@Input` properties onto directives, for further customisability. Edit `highlight.directive.ts`:
@@ -250,7 +250,7 @@ Hooray! We can also add `@Input` properties onto directives, for further customi
 
 Now we can use our directive along with its input property:
 ```
-<div appHighlight highlightColor="yellow">
+<div class="ui segment" appHighlight highlightColor="yellow">
 ```
 
 **Bonus points:** make the syntax more compact, so that we can just write `<div appHighlight="yellow">`. You can do this by matching the name of the `@Input` property to the directive's name. To avoid confusion inside the directive, you can use an **input alias**.

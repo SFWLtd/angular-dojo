@@ -32,11 +32,11 @@ Now we need to reference the compiled semantic CSS and JS, along with jquery. Cr
   ... 
   "styles": [
       "styles.css",
-      "semantic/dist/semantic.min.css"
+      "../semantic/dist/semantic.min.css"
   ],
   "scripts": [
       "../node_modules/jquery/dist/jquery.min.js",
-      "semantic/dist/semantic.min.js"
+      "../semantic/dist/semantic.min.js"
   ],
   ...
 }]

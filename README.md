@@ -125,18 +125,16 @@ getValues(): string[] {
 To simulate real-life, let's make our service **asynchronous**, and introduce an artificial wait-time into our service. Start by editing `data-access.service.ts`:
 
 * Change the signature of our `getValues()` method, so that it returns a `Observable<string[]>`
-* Change the return value to `Observable.of(["1", "2"])`
-
-We'll now have a compile error. Fix this by editing `about.component.ts`:
-
-* In `ngOnInit`, change the line that calls the service to: `this.dataAccessService.getValues().subscribe(result => this.values = result);`
-
-We're not quite there, as our service is still returning data instantaneously. Let's slow it down, by editing the return value of `getValues()` in `data-access.service.ts` again:
+* Change the return value to:
 ```
 return new Observable(subscriber => {
   setTimeout(() => subscriber.next(["1", "2"]), 1000);
 });
 ```
+
+We'll now have a compile error. Fix this by editing `about.component.ts`:
+
+* In `ngOnInit`, change the line that calls the service to: `this.dataAccessService.getValues().subscribe(result => this.values = result);`
 
 Now test it out, and *observe* how the about component takes a second to display the values on the screen, every time it is initiated. We can take this one step further, and display something on screen whilst we're waiting. Let's do that now:
 

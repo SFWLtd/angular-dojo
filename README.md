@@ -3,6 +3,7 @@ It's time to do some Angular! This dojo contains a bunch of things that Matt lik
 
 ## Pre-requisites
 * Install [node](https://nodejs.org/en/download/) & [npm](https://www.npmjs.com/). You can use [yarn](https://yarnpkg.com/lang/en/) if you prefer!
+* Install [git](https://git-for-windows.github.io/)
 * Install [angular-cli](https://github.com/angular/angular-cli/): `npm install -g @angular/cli`
 * Install [gulp](https://github.com/gulpjs/gulp): `npm install -g gulp`
 * Install [vs2017](https://www.visualstudio.com/thank-you-downloading-visual-studio/?sku=Community&rel=15#)
@@ -14,6 +15,8 @@ Follow these steps (taken directly from the [angular-cli](https://github.com/ang
 * `ng new angular-dojo-frontend`
 * `cd angular-dojo-frontend`
 * `ng serve`
+
+You should now be able to browse to your shiny new Angular site, using the port shown in your command window.
 
 ### Styling
 For this dojo, we'll use [Semantic UI](https://semantic-ui.com/) as our CSS framework. First we need to install Semantic UI, and build the CSS and JS:
@@ -45,13 +48,15 @@ See if it's working, by editing `app.component.html`:
 * Edit the `h1`, so it has class `ui header`
 * Add a `p` below the `h1`, with a bit of content
 
+If you've left the Angular site running, you should see all of your changes show up in real time. For **bonus points** - read up on view encapsulation and shadow DOM.
+
 ## Binding
 Let's play around with some Angular binding, by editing `app.component.html`:
 
 * Add `<input [(ngModel)]="title">` to the component
 * Wrap the input in a `<div>` with class `ui input`
 
-Note that this is a **two way binding**. Notice how the value displayed in the `<h1>` (which is using a **one way binding**) automatically changes in real time.
+Note that this is a **two way binding**. Notice how the value displayed in the `<h1>` (which is using a **one way binding**) automatically changes in real time, as you edit the input field.
 
 ## Components
 Create a new navigation component using angular-cli:
@@ -92,7 +97,7 @@ export const routing = RouterModule.forRoot(routes);
 ```
 * Edit `app.module.ts`, and add `RouterModule` and `routing` to the `imports` list
 * Edit `navigation.component.html`, and add attributes `[routerLink]="['']"` and `[routerLink]="['about']"` to their respective `<a>`s
-* Bask in your own glory. For bonus points - look into Angular's **child routes**
+* Bask in your own glory. For bonus points - look into how Angular handles **child routes**
 
 ## Services
 Let's create a service, so that we can put some data on the screen:
@@ -148,7 +153,7 @@ Now test it out, and *observe* how the about component takes a second to display
 In real life you might not want to instantly load the page and show some holding content whilst waiting for data. You may want to wait until all the data is present before activating the route. This can be achieved with **route resolvers**. They're not covered in this dojo, but are fairly straightforward. You can read more at [thoughtram](https://blog.thoughtram.io/angular/2016/10/10/resolving-route-data-in-angular-2.html).
 
 ## Interfacing with an API
-This repository contains a pre-built dotnet core webapi project. Open the solution within `./api/src/` in Visual Studio, and run the webapi project. Keep it running in the background.
+This repository contains a pre-built dotnet core webapi project. Clone this repo, then open the solution within `./api/src/` in Visual Studio, and run the webapi project. Keep it running in the background.
 
 ### Swagger
 With the webapi project running, you should be able to browse to the Swagger endpoints, thanks to [NSwag](https://github.com/NSwag/NSwag):
@@ -157,7 +162,7 @@ With the webapi project running, you should be able to browse to the Swagger end
 * Swagger JSON: http://localhost:4201/swagger/v1/swagger.json
 
 ### NSwag client
-Let's use NSwag to generate a TypeScript client for us:
+Let's use NSwag to generate a TypeScript client for us. Back in our dojo front-end project:
 
 * Install NSwag 8.0.0*: `npm install nswag@8.0.0 -g`
 * Generate the TS client: `nswag swagger2tsclient /input:http://localhost:4201/swagger/v1/swagger.json /output:./src/api/apiclient.ts /template:angular2` (you might want to add this command as a script inside `package.json`)

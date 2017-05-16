@@ -125,16 +125,19 @@ getValues(): string[] {
 To simulate real-life, let's make our service **asynchronous**, and introduce an artificial wait-time into our service. Start by editing `data-access.service.ts`:
 
 * Change the signature of our `getValues()` method, so that it returns a `Observable<string[]>`
-* Change the return value to:
+* Change the return value to `Observable.of(["1", "2"])`
+
+We'll now have a compile error. Fix this by editing `about.component.ts`:
+
+* In `ngOnInit`, change the line that calls the service to: `this.dataAccessService.getValues().subscribe(result => this.values = result);`
+
+We're not quite there, as our service is still returning data instantaneously. Let's slow it down, by editing the return value of `getValues()` in `data-access.service.ts` again:
+
 ```
 return new Observable(subscriber => {
   setTimeout(() => subscriber.next(["1", "2"]), 1000);
 });
 ```
-
-We'll now have a compile error. Fix this by editing `about.component.ts`:
-
-* In `ngOnInit`, change the line that calls the service to: `this.dataAccessService.getValues().subscribe(result => this.values = result);`
 
 Now test it out, and *observe* how the about component takes a second to display the values on the screen, every time it is initiated. We can take this one step further, and display something on screen whilst we're waiting. Let's do that now:
 
@@ -269,7 +272,7 @@ Woops - they fail! We need to do some quick fixes to accommodate all the code we
 * Also in `app.component.spec.ts`, we need to import Angular's forms module. Add `imports: [FormsModule]`
 * In `navigation.component.spec.ts`, we need to import Angular's router testing module. Add `imports: [RouterTestingModule]` (and import `RouterTestingModule` from `@angular/router/testing`)
 * In `form.component.spec.ts`, we need to import both Angular's HTTP module, Angular's forms module, and we need to provide the ValuesClient. Use the same approach as above
-* Finally, just delete `hightlight.directive.spec.ts`, as we're not going to test it in this dojo
+* Finally, just delete `highlight.directive.spec.ts`, as we're not going to test it in this dojo
 
 And now, after running `ng test` again, the tests should all pass.. hooray!
 
@@ -281,6 +284,16 @@ Let's mock our `apiClient.ValuesClient`, so we can test that the about component
 * Create a new test method to check that the values from the api are populating the component's local variable. Something like `expect(component.values).toContain("value3");`
 
 The test should pass. **Bonus points:** take it one step further, and test that the value from the mock client is displayed on the screen.
+
+## Debugging and building
+Angular CLI runs on [webpack](https://webpack.github.io/). When running the local webpack dev server (i.e. `ng serve`), the best way to debug your code is through Chrome:
+
+* Open the dev console (F12)
+* Go to Sources
+* Ctrl + P -> start typing the name of the .ts file you want to debug
+* Add a breakpoint
+
+To build the solution ready for deployment, just run `ng build` (or `ng build --prod` if you want to remove source maps, and run uglify). You can host the `/dist` folder on any web server.
 
 ## Useful tools
 

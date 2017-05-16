@@ -13,21 +13,22 @@ It's time to do some Angular! This dojo contains a bunch of things that Matt lik
 Follow these steps to create a blank project, and run it locally. Keep it running for the rest of this dojo:
 
 * Open a new git bash window (or cmd if you prefer)
-* Change directory to where you'd like to create your new project folder
-* `ng new angular-dojo-frontend`
-* `cd angular-dojo-frontend`
-* `code .` (or open your favourite text editor and browse to your new project)
-* `ng serve`
+* Change directory to where you'd like to create your new project folder (i.e. `cd /c/projects`), and run the following commands:
+  * `ng new angular-dojo-frontend`
+  * `cd angular-dojo-frontend`
+  * `code .`
+  * `ng serve`
 
-You should now be able to browse to your shiny new Angular site, using the port shown in your command window. (i.e. http://localhost:4200)
+You should now be able to browse to your shiny new Angular site, using the port shown in your command window. (i.e. http://localhost:4200). You should also have your new project open in vscode, ready for editing.
 
 ### Styling
 For this dojo, we'll use [Semantic UI](https://semantic-ui.com/) as our CSS framework. First we need to install Semantic UI, and build the CSS and JS:
 
 * Open another git bash window (or cmd if you prefer). We'll use two windows, so you can leave your other one serving your app.
-* `npm install semantic-ui jquery --save` (Note: due to a quirk in the semantic setup, you may need to run this in cmd rather than git bash. Install using all the defaults)
-* `cd semantic`
-* `gulp build`
+* Change directory to your project route (i.e. `cd /c/projects/angular-dojo-frontend`), and run the following commands:
+  * `npm install semantic-ui jquery --save` (Note: due to a quirk in the semantic setup, you may need to run this in cmd rather than git bash. Install using all the defaults)
+  * `cd semantic`
+  * `gulp build`
 
 Now we need to reference the compiled semantic CSS and JS, along with jquery. Crack open vscode, and edit `angular-cli.json`:
 
@@ -63,9 +64,9 @@ Let's play around with some Angular binding, by editing `app.component.html`:
 Note that this is a **two way binding**. Notice how the value displayed in the `<h1>` (which is using a **one way binding**) automatically changes in real time, as you edit the input field.
 
 ## Components
-Create a new navigation component using angular-cli:
+Create a new navigation component using angular-cli. Open your second command window (the one *not* serving the app):
 
-* cd [wherever-you-installed-your-app]/angular-dojo-frontend
+* Change directory back to your project route (i.e. `cd /c/projects/angular-dojo-frontend`)
 * `ng g component navigation`
 
 Notice how it creates the scaffolding for our new component, and also edits our app definition in `app.module.ts`. Now let's add it into our app:

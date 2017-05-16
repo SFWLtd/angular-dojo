@@ -10,18 +10,22 @@ It's time to do some Angular! This dojo contains a bunch of things that Matt lik
 * Install [vscode](https://code.visualstudio.com/), and this [auto import extension](https://marketplace.visualstudio.com/items?itemName=steoates.autoimport)
 
 ## Project set-up
-Follow these steps (taken directly from the [angular-cli](https://github.com/angular/angular-cli/) page) to create a blank project, and run it locally. Keep it running for the rest of this dojo:
+Follow these steps to create a blank project, and run it locally. Keep it running for the rest of this dojo:
 
+* Open a new git bash window (or cmd if you prefer)
+* Change directory to where you'd like to create your new project folder
 * `ng new angular-dojo-frontend`
 * `cd angular-dojo-frontend`
+* `code .` (or open your favourite text editor and browse to your new project)
 * `ng serve`
 
-You should now be able to browse to your shiny new Angular site, using the port shown in your command window.
+You should now be able to browse to your shiny new Angular site, using the port shown in your command window. (i.e. http://localhost:4200)
 
 ### Styling
 For this dojo, we'll use [Semantic UI](https://semantic-ui.com/) as our CSS framework. First we need to install Semantic UI, and build the CSS and JS:
 
-* `npm install semantic-ui jquery --save` (Note: due to a quirk in the semantic setup, you'll need to run this in cmd rather than git bash. Install using all the defaults)
+* Open another git bash window (or cmd if you prefer). We'll use two windows, so you can leave your other one serving your app.
+* `npm install semantic-ui jquery --save` (Note: due to a quirk in the semantic setup, you may need to run this in cmd rather than git bash. Install using all the defaults)
 * `cd semantic`
 * `gulp build`
 
@@ -42,7 +46,7 @@ Now we need to reference the compiled semantic CSS and JS, along with jquery. Cr
 }]
 ```
 
-You'll need to kill and re-run `ng serve`, so that it picks up the updated Angular config. Now let's see if it's working, by editing `app.component.html`:
+You'll need to kill and re-run `ng serve` in the first command window, so that it picks up the updated Angular config. Now let's see if it's working, by editing `app.component.html`:
 
 * Wrap the contents of the component in a `div`, with class `ui container segment`
 * Edit the `h1`, so it has class `ui header`
@@ -61,6 +65,7 @@ Note that this is a **two way binding**. Notice how the value displayed in the `
 ## Components
 Create a new navigation component using angular-cli:
 
+* cd [wherever-you-installed-your-app]/angular-dojo-frontend
 * `ng g component navigation`
 
 Notice how it creates the scaffolding for our new component, and also edits our app definition in `app.module.ts`. Now let's add it into our app:
@@ -154,19 +159,19 @@ Now test it out, and *observe* how the about component takes a second to display
 In real life you might not want to instantly load the page and show some holding content whilst waiting for data. You may want to wait until all the data is present before activating the route. This can be achieved with **route resolvers**. They're not covered in this dojo, but are fairly straightforward. You can read more at [thoughtram](https://blog.thoughtram.io/angular/2016/10/10/resolving-route-data-in-angular-2.html).
 
 ## Interfacing with an API
-This repository contains a pre-built dotnet core webapi project. Clone this repo, then open the solution within `./api/src/` in Visual Studio, and run the webapi project. Keep it running in the background.
+This repository contains a pre-built dotnet core webapi project. You *could* clone this repo, then open the solution within `./api/src/` in Visual Studio, and run the webapi project. Or, if you're lazy, you can use the pre-existing backend API in Azure, at: http://angular-dojo.azurewebsites.net
 
 ### Swagger
 With the webapi project running, you should be able to browse to the Swagger endpoints, thanks to [NSwag](https://github.com/NSwag/NSwag):
 
-* Swagger UI: http://localhost:4201/swagger
-* Swagger JSON: http://localhost:4201/swagger/v1/swagger.json
+* Swagger UI: http://angular-dojo.azurewebsites.net/swagger (or http://localhost:4201/swagger if you're running locally)
+* Swagger JSON: http://angular-dojo.azurewebsites.net/swagger/v1/swagger.json (or http://localhost:4201/swagger/v1/swagger.json if you're running locally)
 
 ### NSwag client
 Let's use NSwag to generate a TypeScript client for us. Back in our dojo front-end project:
 
 * Install NSwag 8.0.0*: `npm install nswag@8.0.0 -g`
-* Generate the TS client: `nswag swagger2tsclient /input:http://localhost:4201/swagger/v1/swagger.json /output:./src/api/apiclient.ts /template:angular2` (you might want to add this command as a script inside `package.json`)
+* Generate the TS client: `nswag swagger2tsclient /input:http://angular-dojo.azurewebsites.net/swagger/v1/swagger.json /output:./src/api/apiclient.ts /template:angular2` (you might want to add this command as a script inside `package.json`)
 * Edit `about.component.ts`:
   * Add import: `import * as apiClient from '../../api/apiclient';`
   * Add provider: `providers: [apiClient.ValuesClient]`

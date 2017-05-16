@@ -4,8 +4,8 @@ It's time to do some Angular! This dojo contains a bunch of things that Matt lik
 ## Pre-requisites
 * Install [node](https://nodejs.org/en/download/) & [npm](https://www.npmjs.com/). You can use [yarn](https://yarnpkg.com/lang/en/) if you prefer!
 * Install [git](https://git-for-windows.github.io/)
-* Install angular-cli: `npm install -g @angular/cli`
-* Install gulp: `npm install -g gulp`
+* Install angular-cli, by running `npm install -g @angular/cli` in a command window
+* Install gulp, by running `npm install -g gulp` in a command window
 * Install [vs2017](https://www.visualstudio.com/thank-you-downloading-visual-studio/?sku=Community&rel=15#)
 * Install [vscode](https://code.visualstudio.com/), and this [auto import extension](https://marketplace.visualstudio.com/items?itemName=steoates.autoimport)
 
